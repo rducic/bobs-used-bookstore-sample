@@ -107,9 +107,6 @@ namespace Bookstore.Data
                 entity.Property(e => e.AddressId).HasColumnName("addressid");
                 entity.Property(e => e.DeliveryDate).HasColumnName("deliverydate");
                 entity.Property(e => e.OrderStatus).HasColumnName("orderstatus");
-                entity.Property(e => e.Tax).HasColumnName("tax");
-                entity.Property(e => e.SubTotal).HasColumnName("subtotal");
-                entity.Property(e => e.Total).HasColumnName("total");
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.CreatedBy).HasColumnName("createdby");
                 entity.Property(e => e.CreatedOn).HasColumnName("createdon");
@@ -204,6 +201,7 @@ namespace Bookstore.Data
 
             modelBuilder.Entity<Order>().ToTable("orders", "bobsusedbookstore_dbo");
             modelBuilder.Entity<Order>().HasOne(x => x.Customer).WithMany().OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Order>().HasMany(x => x.OrderItems).WithOne(x => x.Order).HasForeignKey(x => x.OrderId);
 
             PopulateDatabase(modelBuilder);
 
