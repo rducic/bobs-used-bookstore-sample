@@ -15,9 +15,8 @@ namespace Bookstore.Domain.Orders
         {
             CustomerId = customerId;
             AddressId = addressId;
+            OrderItems = new List<OrderItem>();
         }
-
-        private readonly List<OrderItem> orderItems = new List<OrderItem>();
 
         [Column("customerid")]
         public int CustomerId { get; set; }
@@ -27,8 +26,7 @@ namespace Bookstore.Domain.Orders
         public int AddressId { get; set; }
         public Address Address { get; set; }
 
-        [NotMapped]
-        public IEnumerable<OrderItem> OrderItems => orderItems;
+        public ICollection<OrderItem> OrderItems { get; set; }
 
         [Column("deliverydate")]
         public DateTime DeliveryDate { get; set; } = DateTime.UtcNow.AddDays(7);
@@ -47,7 +45,7 @@ namespace Bookstore.Domain.Orders
 
         public void AddOrderItem(Book book, int quantity)
         {
-            orderItems.Add(new OrderItem(this, book, quantity));
+            OrderItems.Add(new OrderItem(this, book, quantity));
         }
     }
 }
